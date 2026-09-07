@@ -22,7 +22,8 @@ export default function AIPage() {
       const resp = await fn({ prompt });
       // Expect server to return { text }
       if (resp.data && resp.data.text) {
-        setResponses(r => [...r, resp.data.text]);
+        const text = resp.data.text;
+        setResponses(r => [...r, text]);
       } else {
         alert('No AI response');
       }
