@@ -3,6 +3,10 @@ import { httpsCallable } from 'firebase/functions';
 import { functions } from '../../lib/firebase';
 import { useAuth } from '../../hooks/useAuth';
 
+interface AIChatResponse {
+  text?: string;
+}
+
 export default function AIPage() {
   const { user } = useAuth();
   const [prompt, setPrompt] = useState('');
@@ -14,7 +18,7 @@ export default function AIPage() {
     if (!prompt) return;
     setLoading(true);
     try {
-      const fn = httpsCallable(functions, 'aiChat');
+      const fn = httpsCallable<{ prompt: string }, AIChatResponse>(functions, 'aiChat');
       const resp = await fn({ prompt });
       // Expect server to return { text }
       if (resp.data && resp.data.text) {
